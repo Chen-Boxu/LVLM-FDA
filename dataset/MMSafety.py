@@ -5,14 +5,14 @@ import numpy as np
 from dataset.base import BaseDataset
 
 class MMSafetyBench(BaseDataset):
-    def __init__(self, prompter, split="train", data_root="/data/MM-SafetyBench/", pred=False):
+    def __init__(self, prompter, split="train", data_root="/data/MM-SafetyBench/", pred=False, pred_json=None):
         super(MMSafetyBench, self).__init__()
         self.ann_root = data_root
         self.img_root = data_root
         self.split = split
         self.prompter = prompter
         if pred:
-            with open("/workspace/safety_heads/Attack/eval/mmsafety/qwen/alpha_250612.json", "r", encoding="utf-8") as f:
+            with open(pred_json, "r", encoding="utf-8") as f:
                 self.pred = json.load(f)
         else:
             self.pred = None
@@ -21,8 +21,7 @@ class MMSafetyBench(BaseDataset):
 
         pos_data, neg_data = [], []
 
-        # The original MMSafetyBench data
-        # All data are unsafe queries.
+        # The original MMSafetyBench data. All data are unsafe queries.
         val_phrases = []
         for i, sc in enumerate([
             '01-Illegal_Activitiy',
@@ -48,7 +47,7 @@ class MMSafetyBench(BaseDataset):
                 # img_path = os.path.join(self.img_root, "data/imgs/", sc, "SD", f"{k}.jpg")
                 entry = {
                     "img_path": img_path,
-                    "question": self.prompter.build_prompt(v['Rephrased Question']), # Rephrased Question
+                    "question": self.prompter.build_prompt(v['Rephrased Question']),
                     "answer": None,
                     "label": 1,
                     "scenario": i + 1
@@ -79,7 +78,7 @@ class MMSafetyBench(BaseDataset):
                     # img_path = os.path.join(self.img_root, "data/imgs/", sc, "SD", f"{k}.jpg") # v['Rephrased Question(SD)']
                     entry = {
                             "img_path": img_path,
-                            "question": self.prompter.build_prompt(v['Rephrased Question']), #Rephrased Question
+                            "question": self.prompter.build_prompt(v['Rephrased Question']),
                             "answer" : None,
                             "label": 0,
                             "scenario": 0

@@ -9,7 +9,7 @@ from utils.func import read_jsonl
 import json, csv
 
 class MMvetDataset(BaseDataset):
-    def __init__(self, prompter, split="val", data_root="/workspace/ZJY/MM-Vet/v1_data/", pred=False):
+    def __init__(self, prompter, split="val", data_root="/workspace/ZJY/MM-Vet/v1_data/", pred=False, pred_json=None):
         super(MMvetDataset, self).__init__()
         self.ann_path = os.path.join(data_root, "mm-vet.json")
         self.img_root = os.path.join(data_root, "images/")

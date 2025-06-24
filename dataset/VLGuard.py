@@ -5,7 +5,7 @@ from dataset.base import BaseDataset
 
 
 class VLGuardDataset(BaseDataset):
-    def __init__(self, prompter, split="train", data_root="/data1/VLGuard/", pred=False):
+    def __init__(self, prompter, split="train", data_root="/data1/VLGuard/", pred=False, pred_json=None):
         super(VLGuardDataset, self).__init__()
         self.split = split
         self.ann_root = os.path.join(data_root, f"{split}.json")
